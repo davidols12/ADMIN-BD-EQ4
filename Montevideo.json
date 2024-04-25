@@ -1,0 +1,110 @@
+{
+    "Cine": [
+        {
+            "_idCine": 0,
+            "NombreCine": "Cinepolis Sendero",
+            "Direccion": "Sendero",
+            "Telefono": "6673178587",
+            "CantSalas": 8,
+            "Salas": [
+                {
+                    "_idSala": 1,
+                    "NombreSala": "Sala 1",
+                    "NumeroSala": 1,
+                    "CantButacas": 250,
+                    "Funciones": [
+                        {
+                            "FechaFun": {
+                                "anio": 2022,
+                                "mes": 8,
+                                "dia": 18
+                            },
+                            "HoraInicio": "18:00",
+                            "Pelicula": {
+                                "_idPelicula": 1,
+                                "TituloDistribucion": "The Batman",
+                                "TituloOriginal": "The Batman",
+                                "Generos": [
+                                    "Accion",
+                                    "Superheroes",
+                                    "Drama",
+                                    "Crimen"
+                                ],
+                                "_idiomaOriginal": "English",
+                                "SubtitulosEspanol": true,
+                                "PaisOrigen": "Estados Unidos",
+                                "AñoProduccion": {
+                                    "anio": 2019,
+                                    "mes": 2,
+                                    "dia": 7
+                                },
+                                "Duracion": "3:23",
+                                "Clasificacion": "PG-13",
+                                "FechaEstreno": {
+                                    "anio": 2022,
+                                    "mes": 8,
+                                    "dia": 2
+                                },
+                                "Sinopsis": "Una pelicula de murcielagos",
+                                "Opiniones": [
+                                    {
+                                        "_idOpinion": 1,
+                                        "FechaOpinion": {
+                                            "anio": 2022,
+                                            "mes": 8,
+                                            "dia": 27
+                                        },
+                                        "Calificacion": 10,
+                                        "Comentario": "Me gustaron los murcielagos"
+                                    },
+                                    {
+                                        "_idOpinion": 2,
+                                        "FechaOpinion": {
+                                            "anio": 2022,
+                                            "mes": 8,
+                                            "dia": 28
+                                        },
+                                        "Calificacion": 9,
+                                        "Comentario": "Da un poco de repelus"
+                                    }
+                                ],
+                                "ActorDirector": [
+                                    {
+                                        "_idPersona": 1,
+                                        "Nombre": "Matt",
+                                        "ApellidoPat": "Reeves",
+                                        "ApellidoMat": null,
+                                        "Edad": 57,
+                                        "Nacionalidad": "Estadounidense",
+                                        "Rol": "Director"
+                                    },
+                                    {
+                                        "_idPersona": 2,
+                                        "Nombre": "Keanu",
+                                        "ApellidoPat": "Reeves",
+                                        "ApellidoMat": "Wick",
+                                        "Edad": 28,
+                                        "Nacionalidad": "Estadounidense",
+                                        "Rol": "Actor"
+                                    }
+                                ]
+                            },
+                            "Promociones": [
+                                {
+                                    "_idPromocion": 1,
+                                    "Descripcion": "2x1 en Refrescos Grande",
+                                    "Descuento": "50"
+                                },
+                                {
+                                    "_idPromocion": 2,
+                                    "Descripcion": "Martes 2x1 Salas Comfort",
+                                    "Descuento": "50"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
