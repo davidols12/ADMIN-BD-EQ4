@@ -58,15 +58,15 @@ GO
 CREATE TABLE Pelicula (
     IdPelicula INT,
     Genero VARCHAR(25),
-    TituloDistribucion VARCHAR(25),
+    TituloDistribucion VARCHAR(50),
     TituloOriginal VARCHAR(50),
-    IdiomaOriginal VARCHAR(10),
+    IdiomaOriginal VARCHAR(13),
     SubtitulosEspanol BIT,
-    PaisesOrigen VARCHAR(25),
+    PaisesOrigen VARCHAR(26),
     FechaProduccion DATE,
     URL NVARCHAR(255),
     Duracion TIME,
-    Clasificacion VARCHAR(10),
+    Clasificacion VARCHAR(5),
     FechaEstreno DATE,
     Sinopsis VARCHAR(255),
     PRIMARY KEY (IdPelicula, Genero)
@@ -78,14 +78,12 @@ CREATE TABLE Cine (
 	NombreCine VARCHAR(25),
 	Direccion VARCHAR(50),
 	Telefono VARCHAR(10),
-	CantidadSalas INT
+	CantidadSalas TINYINT
 )
 GO
 CREATE TABLE Sala (
-	IdSala INT PRIMARY KEY,
-	NombreSala VARCHAR(25),
-	NumeroSala INT,
-	CantidadButacas INT,
+	NumeroSala TINYINT PRIMARY KEY,
+	CantidadButacas SMALLINT,
 	IdCine INT
 )
 GO
@@ -94,66 +92,103 @@ CREATE TABLE Funcion (
 	FechaFuncion DATE,
 	HoraDeInicio TIME,
 	IdPelicula INT,
-	IdSala INT,
+	NumeroSala TINYINT,
 	Genero VARCHAR(25)
 )
 GO
 CREATE TABLE Promocion (
 	IdPromocion INT PRIMARY KEY,
 	Descripcion VARCHAR(100),
-	Descuento INT
+	Descuento VARCHAR(4)
 )
 GO
 CREATE TABLE Opinion (
 	IdOpinion INT PRIMARY KEY,
 	FechaOpinion DATE,
-	Calificacion DECIMAL,
+	Calificacion DECIMAL(4,2),
 	Comentario VARCHAR(255),
 	IdPelicula INT,
 	Genero VARCHAR(25)
 )
 GO
-CREATE TABLE ActorDirector (
-	IdPersona INT PRIMARY KEY,
+CREATE TABLE Actor (
+	RFC INT PRIMARY KEY,
 	Nombre VARCHAR(25),
 	ApellidoPaterno VARCHAR(25),
 	ApellidoMaterno VARCHAR(25),
-	Edad INT,
+	Edad TINYINT,
 	Nacionalidad VARCHAR(25),
-	IdDirector INT,
+	IdPelicula INT
+)
+GO
+CREATE TABLE Director (
+	RFC INT PRIMARY KEY,
+	Nombre VARCHAR(25),
+	ApellidoPaterno VARCHAR(25),
+	ApellidoMaterno VARCHAR(25),
+	Edad TINYINT,
+	Nacionalidad VARCHAR(25),
 	IdPelicula INT
 )
 GO
 /* NORMALIZACION */
-CREATE TABLE PeliculaActor (
+/* PeliculaActor */
+CREATE TABLE Trabaja (
 	IdPelicula INT,
-	IdActor INT,
+	RFCActor INT,
 	Genero VARCHAR(25)
 )
 GO
-CREATE TABLE FuncionPromocion (
+
+/* FuncionPromocion */
+CREATE TABLE Aplica (
 	IdFuncion INT,
 	IdPromocion INT
 )
+
+CREATE TABLE Dirige (
+	RFCActor INT,
+	RFCDirector INT
+)
 GO
+
+ALTER TABLE Dirige ADD CONSTRAINT
+FK_Dirige_Actor FOREIGN KEY(IdActor)
+REFERENCES Actor(IdActor)
+GO
+
+ALTER TABLE Dirige ADD CONSTRAINT
+FK_Dirige_Director FOREIGN KEY(IdDirector)
+REFERENCES Actor(IdDirector)
+GO
+
 /* LLAVES FORANEAS */
+/* MAL SEGUN EL PROFE */
 ALTER TABLE ActorDirector ADD CONSTRAINT
 FK_ActorDirector_Director FOREIGN KEY(IdDirector)
 REFERENCES ActorDirector(IdPersona)
 GO
+/* ---------------------------------------------- */
 
-ALTER TABLE PeliculaActor
-ADD CONSTRAINT FK_PeliculaActor_Pelicula 
+
+ALTER TABLE Trabaja
+ADD CONSTRAINT FK_Trabaja_Pelicula 
 FOREIGN KEY (IdPelicula, Genero) 
 REFERENCES Pelicula(IdPelicula, Genero);
 GO
 
-ALTER TABLE PeliculaActor ADD CONSTRAINT
-FK_PeliculaActor_IdPersona FOREIGN KEY(IdActor)
-REFERENCES ActorDirector(IdPersona)
+ALTER TABLE Trabaja ADD CONSTRAINT
+FK_Trabaja_IdPersona FOREIGN KEY(IdActor)
+REFERENCES Actor(IdActor)
 GO
 
-/ALTER TABLE Opinion ADD CONSTRAINT
+ALTER TABLE PeliculaDirector ADD CONSTRAINT
+FK_PeliculaDirector_IdDirector FOREIGN KEY(IdDirector)
+REFERENCES Director(IdDirector)
+GO
+
+
+ALTER TABLE Opinion ADD CONSTRAINT
 FK_Opinion_IdOpinion FOREIGN KEY(IdPelicula, Genero)
 REFERENCES Pelicula(IdPelicula, Genero)
 GO
@@ -163,13 +198,13 @@ FK_Funcion_IdPelicula FOREIGN KEY(IdPelicula, Genero)
 REFERENCES Pelicula(IdPelicula, Genero)
 GO
 
-ALTER TABLE FuncionPromocion ADD CONSTRAINT
-FK_FuncionPromocion_IdFuncion FOREIGN KEY(IdFuncion)
+ALTER TABLE Aplica ADD CONSTRAINT
+FK_Aplica_IdFuncion FOREIGN KEY(IdFuncion)
 REFERENCES Funcion(IdFuncion)
 GO
 
-ALTER TABLE FuncionPromocion ADD CONSTRAINT
-FK_FuncionPromocion_IdPromocion FOREIGN KEY(IdPromocion)
+ALTER TABLE Aplica ADD CONSTRAINT
+FK_Aplica_IdPromocion FOREIGN KEY(IdPromocion)
 REFERENCES Promocion(IdPromocion)
 GO
 
