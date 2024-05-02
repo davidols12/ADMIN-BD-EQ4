@@ -7,41 +7,41 @@ Create database Montevideo
 on primary (
 name=db_dat,
 filename= 'C:\data\proyecto\db.mdf', 
-size = 2mb),
+size = 10mb),
   Filegroup fgDrama
   (
   name=fg1_dat,
 filename= 'C:\data\proyecto\fg1.ndf', 
-size = 2mb),
+size = 10mb),
 Filegroup fgComedia
   (
   name=fg2_dat,
 filename= 'C:\data\proyecto\fg2.ndf', 
-size = 2mb),
+size = 10mb),
 Filegroup fgAccion
   (
   name=fg3_dat,
 filename= 'C:\data\proyecto\fg3.ndf', 
-size = 2mb),
+size = 10mb),
 Filegroup fgCiencia_ficcion
   (
   name=fg4_dat,
 filename= 'C:\data\proyecto\fg4.ndf', 
-size = 2mb),
+size = 10mb),
 Filegroup fgSuspenso
   (
   name=fg5_dat,
 filename= 'C:\data\proyecto\fg5.ndf', 
-size = 2mb),
+size = 10mb),
 Filegroup fgRomance
   (
   name=fg6_dat,
 filename= 'C:\data\proyecto\fg6.ndf', 
-size = 2mb)
+size = 10mb)
 Log on 
 (name=db_log,
 filename= 'C:\data\proyecto\log.ndf', 
-size = 5mb, filegrowth=10%
+size = 20mb, filegrowth=10%
 )
 GO
 
@@ -163,49 +163,37 @@ REFERENCES Actor(IdDirector)
 GO
 
 /* LLAVES FORANEAS */
-/* MAL SEGUN EL PROFE */
-ALTER TABLE ActorDirector ADD CONSTRAINT
-FK_ActorDirector_Director FOREIGN KEY(IdDirector)
-REFERENCES ActorDirector(IdPersona)
-GO
-/* ---------------------------------------------- */
-
-
-ALTER TABLE Trabaja
-ADD CONSTRAINT FK_Trabaja_Pelicula 
-FOREIGN KEY (IdPelicula, Genero) 
-REFERENCES Pelicula(IdPelicula, Genero);
+--FK DIRIGE
+ALTER TABLE Dirige ADD CONSTRAINT
+FK_Dirige_Director FOREIGN KEY(IdDirector)
+REFERENCES ActorDirector(RFC)
 GO
 
+ALTER TABLE DIrige ADD CONSTRAINT 
+FK_Dirige_Actor FOREIGN KEY(IdActor)
+REFERENCES ActorDirector(RFC)
+
+--FK TRABAJA
 ALTER TABLE Trabaja ADD CONSTRAINT
-FK_Trabaja_IdPersona FOREIGN KEY(IdActor)
-REFERENCES Actor(IdActor)
+FK_Trabaja_Pelicula FOREIGN KEY(IdPelicula,Genero)
+REFERENCES Pelicula(RFC, Genero)
 GO
 
-ALTER TABLE PeliculaDirector ADD CONSTRAINT
-FK_PeliculaDirector_IdDirector FOREIGN KEY(IdDirector)
-REFERENCES Director(IdDirector)
+ALTER TABLE PeliculaActor ADD CONSTRAINT
+FK_Pelicula_ActorDIrector FOREIGN KEY(IdActor)
+REFERENCES ActorDirector(RFC)
 GO
 
-
+--FK OPINION 
 ALTER TABLE Opinion ADD CONSTRAINT
-FK_Opinion_IdOpinion FOREIGN KEY(IdPelicula, Genero)
-REFERENCES Pelicula(IdPelicula, Genero)
+FK_Opinion_IdOpinion FOREIGN KEY(IdPelicula)
+REFERENCES Pelicula(IdPelicula)
 GO
 
+--FK FUNCION
 ALTER TABLE Funcion ADD CONSTRAINT
-FK_Funcion_IdPelicula FOREIGN KEY(IdPelicula, Genero)
-REFERENCES Pelicula(IdPelicula, Genero)
-GO
-
-ALTER TABLE Aplica ADD CONSTRAINT
-FK_Aplica_IdFuncion FOREIGN KEY(IdFuncion)
-REFERENCES Funcion(IdFuncion)
-GO
-
-ALTER TABLE Aplica ADD CONSTRAINT
-FK_Aplica_IdPromocion FOREIGN KEY(IdPromocion)
-REFERENCES Promocion(IdPromocion)
+FK_Funcion_IdPelicula FOREIGN KEY(IdPelicula)
+REFERENCES Pelicula(IdPelicula)
 GO
 
 ALTER TABLE Funcion ADD CONSTRAINT
@@ -213,7 +201,18 @@ FK_Funcion_IdSala FOREIGN KEY(IdSala)
 REFERENCES Sala(IdSala)
 GO
 
+--FK APLICA
+ALTER TABLE Aplica ADD CONSTRAINT
+FK_Aplica_Funcion FOREIGN KEY(IdFuncion)
+REFERENCES Funcion(IdFuncion)
+
+ALTER TABLE Aplica ADD CONSTRAINT
+FK_Aplica_Promocion FOREIGN KEY(IdPromocion)
+REFERENCES Promocion(IdPromocion)
+GO
+
+--FK SALA
 ALTER TABLE Sala ADD CONSTRAINT
 FK_Sala_IdCine FOREIGN KEY(IdCine)
-REFERENCES Cine(IdCine)
+REFERENCES Cine(IdCine)
 GO
