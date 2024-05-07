@@ -225,7 +225,7 @@ INSERT INTO Sala VALUES
 (0010010001, 1, 150),
 (0010020002, 2, 200),
 (9681500101, 3, 120),
-(9681580102, 4, 300),
+(9681580102, 4, 250),
 (0012003301, 5, 180),
 (0027500201, 1, 220)
 GO
@@ -250,6 +250,7 @@ INSERT INTO Promocion VALUES
 GO
 
 INSERT INTO Opinion VALUES
+(100020236882102, '2024-05-01', 8.0, 'Muy entretenida, te atrapa desde el primer momento.', 100020236882, 'Drama'),
 (100020236882101, '2024-05-01', 8.5, 'Excelente película con una trama envolvente.', 100020236882, 'Drama'),
 (200020226779202, '2024-04-15', 7.0, 'Buena película, pero un poco larga para mi gusto.', 200020226779, 'Comedia'),
 (396820236567303, '2024-04-20', 9.0, 'Impresionante secuencia de acción y efectos especiales.', 396820236567, 'Accion'),
@@ -259,12 +260,12 @@ INSERT INTO Opinion VALUES
 GO
 
 INSERT INTO ActorDirector VALUES
-('RDJ5704219KA', 'Robert', 'Downey', 'N/A', 57, 'Estadounidense', 100020236882),  -- Actor
-('CEV4106125HA', 'Chris', 'Evans', 'N/A', 41, 'Estadounidense', 100020236882),  -- Actor
-('SSP4804163MA', 'Steven', 'Spielberg', 'N/A', 75, 'Estadounidense', 400120216770),  -- Director
-('CNL5403127XA', 'Christopher', 'Nolan', 'N/A', 52, 'Británico', 100020236882),  -- Director
-('CHE3908246HB', 'Chris', 'Hemsworth', 'N/A', 39, 'Australiano', 400120216770),  -- Actor
-('THO2605098JB', 'Tom', 'Holland', 'N/A', 26, 'Británico', 400120216770)  -- Actor
+('RDJ5704219KA', 'Robert', 'Downey', 'N/A', 57, 'Estadounidense', 100020236882), 
+('CEV4106125HA', 'Chris', 'Evans', 'N/A', 41, 'Estadounidense', 100020236882),  
+('SSP4804163MA', 'Steven', 'Spielberg', 'N/A', 75, 'Estadounidense', 400120216770),  
+('CNL5403127XA', 'Christopher', 'Nolan', 'N/A', 52, 'Británico', 100020236882),  
+('CHE3908246HB', 'Chris', 'Hemsworth', 'N/A', 39, 'Australiano', 400120216770),  
+('THO2605098JB', 'Tom', 'Holland', 'N/A', 26, 'Británico', 400120216770)  
 GO
 
 INSERT INTO Trabaja VALUES
@@ -272,7 +273,7 @@ INSERT INTO Trabaja VALUES
 (100020236882, 'CEV4106125HA', 'Drama'), 
 (400120216770, 'SSP4804163MA', 'Ciencia_ficcion'),  
 (100020236882, 'CNL5403127XA', 'Drama'), 
-(400120216770, 'CHE3908246HB', 'Ciencia_ficcion'),  
+(400120216770, 'CHE3908246HB', 'Cincia_ficcion'),  
 (400120216770, 'THO2605098JB', 'Ciencia_ficcion')
 GO
 
@@ -290,4 +291,27 @@ INSERT INTO Dirige VALUES
 ('CEV4106125HA', 'CNL5403127XA'), 
 ('CHE3908246HB', 'SSP4804163MA'), 
 ('THO2605098JB', 'SSP4804163MA')
+GO
+
+
+--CONSULTAS
+SELECT * FROM Sala WHERE CantidadButacas>=200
+GO
+
+SELECT * FROM Promocion WHERE Descuento='2x1'
+GO
+
+SELECT * FROM Pelicula WHERE PaisesOrigen = 'Estados Unidos'
+GO
+
+SELECT * FROM Pelicula WHERE Genero = 'Comedia' OR Genero = 'Romance'
+GO
+
+SELECT * FROM Trabaja WHERE Genero = 'Drama'
+GO
+
+SELECT * FROM Opinion WHERE Calificacion >= 7.5 AND Genero = 'Drama'
+GO
+
+SELECT * FROM Dirige WHERE RFCDirector = 'CNL5403127XA'
 GO
