@@ -1,4 +1,8 @@
----drop database Montevideo
+USE master
+GO
+drop database Montevideo
+GO
+
 Create database Montevideo
 on primary (
 name=db_dat,
@@ -255,7 +259,17 @@ INSERT INTO Opinion VALUES
 (396820236567303, '2024-04-20', 9.0, 'Impresionante secuencia de acción y efectos especiales.', 396820236567, 'Accion'),
 (400120216770404, '2024-05-02', 5.5, 'No cumplió con mis expectativas, falta desarrollo de personajes.', 400120216770, 'Ciencia_ficcion'),
 (500220228385605, '2024-04-18', 8.0, 'Historia de amor muy bien contada, recomendada.', 600020218279, 'Romance'),
-(200020226779206, '2024-04-25', 6.5, 'Divertida, pero predecible.', 200020226779, 'Comedia')
+(200020226779206, '2024-04-25', 6.5, 'Divertida, pero predecible.', 200020226779, 'Comedia'),
+(1001, '2024-05-10', 9.0, 'Una película realmente inspiradora. La cinematografía es impresionante.', 100020236882, 'Drama'),
+(1002, '2024-05-12', 8.0, 'Me encantó la trama y los personajes. Altamente recomendada.', 100020236882, 'Drama'),
+(1003, '2024-05-14', 7.5, 'Buena película, aunque algunas partes fueron predecibles.', 100020236882, 'Drama'),
+(1004, '2024-05-16', 8.8, 'Excelente actuación y dirección. Un viaje emocional.', 100020236882, 'Drama'),
+(1005, '2024-05-18', 7.0, 'La historia es buena, pero se siente un poco larga en algunos momentos.', 100020236882, 'Drama'),
+(1006, '2024-05-20', 9.2, 'Una obra maestra moderna. Tocó profundamente mis emociones.', 100020236882, 'Drama'),
+(1007, '2024-05-22', 6.5, 'Esperaba más del final, pero en general es una buena película.', 100020236882, 'Drama'),
+(1008, '2024-05-24', 8.3, 'Buena película con un mensaje poderoso. Recomendable.', 100020236882, 'Drama'),
+(1009, '2024-05-26', 8.7, 'Visualmente impresionante y emocionalmente impactante.', 100020236882, 'Drama'),
+(1010, '2024-05-28', 9.5, 'Una experiencia cinematográfica única. Muy bien hecha.', 100020236882, 'Drama')
 GO
 
 INSERT INTO ActorDirector VALUES
@@ -290,4 +304,242 @@ INSERT INTO Dirige VALUES
 ('CEV4106125HA', 'CNL5403127XA'), 
 ('CHE3908246HB', 'SSP4804163MA'), 
 ('THO2605098JB', 'SSP4804163MA')
+GO
+
+-- CHAT GPT
+-- Inserciones en la tabla Pelicula
+DECLARE @i INT = 1
+WHILE @i <= 1000
+BEGIN
+    INSERT INTO Pelicula 
+    VALUES 
+    (
+        CONCAT('P', FORMAT(@i, '0000000000')),
+        CASE WHEN @i % 6 = 0 THEN 'Drama'
+             WHEN @i % 6 = 1 THEN 'Comedia'
+             WHEN @i % 6 = 2 THEN 'Accion'
+             WHEN @i % 6 = 3 THEN 'Ciencia_ficcion'
+             WHEN @i % 6 = 4 THEN 'Suspenso'
+             ELSE 'Romance'
+        END,
+        CONCAT('Titulo_', FORMAT(@i, '0000')),
+        CONCAT('Titulo_Original_', FORMAT(@i, '0000')),
+        'Idioma',
+        @i % 2,
+        CONCAT('Pais_', FORMAT(@i, '0000')),
+        DATEADD(DAY, @i, '2020-01-01'), -- FechaProduccion
+        CONCAT('http://example.com/', FORMAT(@i, '0000')),
+        CONCAT(FORMAT(@i % 3 + 1, '00'), ':', FORMAT(@i % 60, '00'), ':00'),
+        'A',
+        DATEADD(DAY, @i, '2020-01-01'), -- FechaEstreno
+        CONCAT('Sinopsis_', FORMAT(@i, '0000'))
+    )
+    SET @i = @i + 1
+END
+GO
+
+-- Inserciones en la tabla Cine
+DECLARE @j INT = 1
+WHILE @j <= 1000
+BEGIN
+    INSERT INTO Cine 
+    VALUES 
+    (
+        CONCAT('C', FORMAT(@j, '000000')),
+        'Nombre_' + FORMAT(@j, '0000'),
+        'Direccion_' + FORMAT(@j, '0000'),
+        '1234567890',
+        @j % 20 + 5
+    )
+    SET @j = @j + 1
+END
+GO
+
+-- Inserciones en la tabla Sala
+DECLARE @k INT = 1
+WHILE @k <= 1000
+BEGIN
+    INSERT INTO Sala 
+    VALUES 
+    (
+        CONCAT('C', FORMAT(@k, '000000')),
+        @k % 10 + 1,
+        @k % 150 + 100
+    )
+    SET @k = @k + 1
+END
+GO
+
+-- Inserciones en la tabla Funcion
+DECLARE @l INT = 1
+WHILE @l <= 1000
+BEGIN
+    INSERT INTO Funcion 
+    VALUES 
+    (
+        CONCAT('F', FORMAT(@l, '0000000000')),
+        DATEADD(DAY, @l, '2024-01-01'), -- FechaFuncion
+        CONCAT(FORMAT(@l % 24, '00'), ':', FORMAT(@l % 60, '00'), ':00'), -- HoraDeInicio
+        CONCAT('P', FORMAT(@l, '0000000000')), -- IdPelicula
+        @l % 5 + 1, -- NumeroSala
+        CONCAT('C', FORMAT(@l % 1000, '000000')), -- IdCine
+        CASE WHEN @l % 6 = 0 THEN 'Drama'
+             WHEN @l % 6 = 1 THEN 'Comedia'
+             WHEN @l % 6 = 2 THEN 'Accion'
+             WHEN @l % 6 = 3 THEN 'Ciencia_ficcion'
+             WHEN @l % 6 = 4 THEN 'Suspenso'
+             ELSE 'Romance'
+        END
+    )
+    SET @l = @l + 1
+END
+GO
+
+-- Inserciones en la tabla Promocion
+DECLARE @m INT = 1
+WHILE @m <= 1000
+BEGIN
+    INSERT INTO Promocion 
+    VALUES 
+    (
+        CONCAT('Pr', FORMAT(@m, '0000000000')),
+        'Descripcion_' + FORMAT(@m, '0000'),
+        FORMAT(RAND()*100, '##.#')
+    )
+    SET @m = @m + 1
+END
+GO
+
+-- Inserciones en la tabla Opinion
+DECLARE @n INT = 1
+WHILE @n <= 1000
+BEGIN
+    INSERT INTO Opinion 
+    VALUES 
+    (
+        CONCAT('O', FORMAT(@n, '0000000000')),
+        DATEADD(DAY, @n, '2024-01-01'), -- FechaOpinion
+        RAND() * 10, -- Calificacion
+        CONCAT('Comentario_', FORMAT(@n, '0000')),
+        CONCAT('P', FORMAT(@n, '0000000000')), -- IdPelicula
+        CASE WHEN @n % 6 = 0 THEN 'Drama'
+             WHEN @n % 6 = 1 THEN 'Comedia'
+             WHEN @n % 6 = 2 THEN 'Accion'
+             WHEN @n % 6 = 3 THEN 'Ciencia_ficcion'
+             WHEN @n % 6 = 4 THEN 'Suspenso'
+             ELSE 'Romance'
+        END
+    )
+    SET @n = @n + 1
+END
+GO
+
+-- Inserciones en la tabla ActorDirector
+DECLARE @o INT = 1
+WHILE @o <= 1000
+BEGIN
+    INSERT INTO ActorDirector 
+    VALUES 
+    (
+        CONCAT('RDJ', FORMAT(@o, '00000000')),
+        CONCAT('Nombre_', FORMAT(@o, '0000')),
+        CONCAT('Apellido_', FORMAT(@o, '0000')),
+        'N/A',
+        @o % 80 + 20,
+        CONCAT('Nacionalidad_', FORMAT(@o, '0000')),
+        CONCAT('P', FORMAT(@o, '0000000000'))
+    )
+    SET @o = @o + 1
+END
+GO
+
+-- Inserciones en la tabla Trabaja
+DECLARE @p INT = 1
+WHILE @p <= 1000
+BEGIN
+    INSERT INTO Trabaja 
+    VALUES 
+    (
+        CONCAT('P', FORMAT(@p, '0000000000')),
+        CONCAT('RDJ', FORMAT(@p, '00000000')),
+        CASE WHEN @p % 6 = 0 THEN 'Drama'
+             WHEN @p % 6 = 1 THEN 'Comedia'
+             WHEN @p % 6 = 2 THEN 'Accion'
+             WHEN @p % 6 = 3 THEN 'Ciencia_ficcion'
+             WHEN @p % 6 = 4 THEN 'Suspenso'
+             ELSE 'Romance'
+        END
+    )
+    SET @p = @p + 1
+END
+GO
+
+-- Inserciones en la tabla Aplica
+DECLARE @q INT = 1
+WHILE @q <= 1000
+BEGIN
+    INSERT INTO Aplica 
+    VALUES 
+    (
+        CONCAT('F', FORMAT(@q, '0000000000')),
+        CONCAT('Pr', FORMAT(@q, '0000000000'))
+    )
+    SET @q = @q + 1
+END
+GO
+
+-- Inserciones en la tabla Dirige
+DECLARE @r INT = 1
+WHILE @r <= 1000
+BEGIN
+    INSERT INTO Dirige 
+    VALUES 
+    (
+        CONCAT('RDJ', FORMAT(@r, '00000000')),
+        CONCAT('P', FORMAT(@r, '0000000000'))
+    )
+    SET @r = @r + 1
+END
+GO
+
+DECLARE @r INT = 1
+DECLARE @maxR INT = 1000 -- Esto puede ser ajustado según la cantidad de registros en ActorDirector
+
+WHILE @r <= @maxR
+BEGIN
+    DECLARE @RFCActor VARCHAR(12)
+    DECLARE @RFCDirector VARCHAR(12)
+    SET @RFCActor = CONCAT('RDJ', FORMAT(@r, '00000000'))
+    SET @RFCDirector = CONCAT('RDJ', FORMAT(@r, '00000000'))
+
+    -- Verificar si los RFCs existen en ActorDirector antes de insertar en Dirige
+    IF EXISTS (SELECT 1 FROM ActorDirector WHERE RFC = @RFCActor)
+    BEGIN
+        INSERT INTO Dirige VALUES (@RFCActor, @RFCDirector)
+    END
+
+    SET @r = @r + 1
+END
+GO
+
+-- CONSULTAS
+SELECT * FROM Sala WHERE CantidadButacas>=200
+GO
+ 
+SELECT * FROM Promocion WHERE Descuento='2x1'
+GO
+ 
+SELECT * FROM Pelicula WHERE PaisesOrigen = 'Estados Unidos'
+GO
+ 
+SELECT * FROM Pelicula WHERE Genero = 'Comedia' OR Genero = 'Romance'
+GO
+ 
+SELECT * FROM Trabaja WHERE Genero = 'Drama'
+GO
+ 
+SELECT * FROM Opinion WHERE Calificacion >= 7.5 AND Genero = 'Drama'
+GO
+ 
+SELECT * FROM Dirige WHERE RFCDirector = 'CNL5403127XA'
 GO
